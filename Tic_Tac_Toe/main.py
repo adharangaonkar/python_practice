@@ -1,9 +1,20 @@
+#**********************GLOBAL VARIABLES*************************
 
 #board
 
 board = ["-" , "-" , "-",
          "-" , "-" , "-",
          "-" , "-" , "-" ]
+
+# If game is still going
+game_still_going = True
+
+#Who won? Tie?
+winner = None
+
+
+#Who's turn is it
+current_player= "X"
 
 #display board
 
@@ -25,12 +36,21 @@ def play_game():
         handle_turn(current_player)
 
         check_if_game_over()
+        #Flip to other player
+        flip_player()
 
-        flip_player
+
+    # The game has ended
+    if winner == "X" or winner == "O":
+        print("The winner is" +  winner)
+
+    elif winner == None:
+        print("Its a Tie go home Dumbasses")
+
 
 
 #handle turns
-def handle_turn():
+def handle_turn(current_player):
     position = input("Choose a position from 1-9: ")
     position = int(position) -1
     board[position] = "X"
@@ -49,11 +69,11 @@ def check_if_win():
     return
 
 def check_if_tie():
-    # check rows
-    # check columns
-    # check diagonals
+
     return
 
+def flip_player():
+    return
 
 play_game()
 
