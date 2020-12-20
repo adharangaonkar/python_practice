@@ -1,22 +1,22 @@
-#**********************GLOBAL VARIABLES*************************
+# **********************GLOBAL VARIABLES*************************
 
-#board
+# board
 
-board = ["-" , "-" , "-",
-         "-" , "-" , "-",
-         "-" , "-" , "-" ]
+board = ["-", "-", "-",
+         "-", "-", "-",
+         "-", "-", "-"]
 
 # If game is still going
 game_still_going = True
 
-#Who won? Tie?
+# Who won? Tie?
 winner = None
 
+# Who's turn is it
+current_player = "X"
 
-#Who's turn is it
-current_player= "X"
 
-#display board
+# display board
 def display_board():
     print("\n")
     print(board[0] + " | " + board[1] + " | " + board[2] + "     1 | 2 | 3")
@@ -31,7 +31,6 @@ def play_game():
     display_board()
 
     while game_still_going:
-
         handle_turn(current_player)
 
         check_if_game_over()
@@ -41,16 +40,28 @@ def play_game():
 
     # The game has ended
     if winner == "X" or winner == "O":
-        print("The winner is " +  winner)
+        print("The winner is " + winner)
 
     elif winner == None:
         print("Its a Tie go home Dumbasses")
 
+
 # handle a single turn pf turns
-def handle_turn(current_player):
+def handle_turn(player):
+    print(player + "'s turn.")
     position = input("Choose a position from 1-9: ")
-    position = int(position) -1
-    board[position] = current_player
+    valid = False
+    while not valid:
+        while position not in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
+            position = input("Invalid input Choose a position from 1-9: ")
+        position = int(position) - 1
+
+        if board[position] == "-":
+            valid = True
+        else:
+            print("Wow How Stupid are you? You cant go there. Go again")
+
+    board[position] = player
     display_board()
 
 
@@ -64,24 +75,25 @@ def check_for_winner():
     global winner
 
     # check rows
-    row_winner = check_rows
+    row_winner = check_rows()
     # check columns
-    column_winner = check_columns
+    column_winner = check_columns()
     # check diagonals
-    diagonal_winner = check_diagonals
+    diagonal_winner = check_diagonals()
     if row_winner:
-        winner = row_winner()
+        winner = row_winner
         # there was a win
     elif column_winner:
-        winner = column_winner()
+        winner = column_winner
         # there was a win
     elif diagonal_winner:
-        winner = diagonal_winner()
+        winner = diagonal_winner
         # there was a win
     else:
         winner = None
         # there was no win
     return
+
 
 def check_rows():
     # setup global variable in function
@@ -95,7 +107,7 @@ def check_rows():
         game_still_going = False
     # return the winner (X or O)
     if row_1:
-        return board[0] # need any component of the row is fine
+        return board[0]  # need any component of the row is fine
     elif row_2:
         return board[3]
     elif row_3:
@@ -115,12 +127,13 @@ def check_columns():
         game_still_going = False
     # return the winner (X or O)
     if column_1:
-        return board[0] # need any component of the column is fine
+        return board[0]  # need any component of the column is fine
     elif column_2:
         return board[1]
     elif column_3:
         return board[2]
     return
+
 
 def check_diagonals():
     # setup global variable in function
@@ -133,15 +146,18 @@ def check_diagonals():
         game_still_going = False
     # return the winner (X or O)
     if diagonal_1:
-        return board[0] # need any component of the column is fine
+        return board[0]  # need any component of the column is fine
     elif diagonal_2:
         return board[6]
     return
 
 
 def check_if_tie():
-
+    global game_still_going
+    if "-" not in board:
+        game_still_going = False
     return
+
 
 def flip_player():
     # global variable to be used in the function
@@ -156,14 +172,12 @@ def flip_player():
     return
 
 
-
 # check win
-    # check rows
-    # check columns
-    # check diagonals
+# check rows
+# check columns
+# check diagonals
 # check tie
 # flip player form player'x' to player'O'
-
 
 
 # -----------------------Start Execution-------------------------- #
